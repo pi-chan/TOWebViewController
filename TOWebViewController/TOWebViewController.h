@@ -54,6 +54,8 @@
  */
 @property (nonatomic,strong)    NSURL *url;
 
+@property (nonatomic,strong)    NSURL *safeUrl;
+
 /** 
  Get/set the request
  */

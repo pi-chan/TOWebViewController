@@ -638,6 +638,7 @@
 #pragma mark Manual Property Accessors
 - (void)setUrl:(NSURL *)url
 {
+    self.safeUrl = url;
     if (self.url == url)
         return;
     
@@ -946,13 +947,13 @@
 - (void)actionButtonTapped:(id)sender
 {
     //Do nothing if there is no url for action
-    if (!self.url) {
+    if (!self.safeUrl) {
         return;
     }
     // If we're on iOS 6 or above, we can use the super-duper activity view controller :)
     if (NSClassFromString(@"UIPresentationController")) {
         NSArray *browserActivities = @[[TOActivitySafari new], [TOActivityChrome new]];
-        UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[self.url] applicationActivities:browserActivities];
+        UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[self.safeUrl] applicationActivities:browserActivities];
         activityViewController.modalPresentationStyle = UIModalPresentationPopover;
         activityViewController.popoverPresentationController.barButtonItem = self.actionButton;
         [self presentViewController:activityViewController animated:YES completion:nil];
@@ -960,7 +961,7 @@
     else if (NSClassFromString(@"UIActivityViewController"))
     {
         NSArray *browserActivities = @[[TOActivitySafari new], [TOActivityChrome new]];
-        UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[self.url] applicationActivities:browserActivities];
+        UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[self.safeUrl] applicationActivities:browserActivities];
         
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
         {
